@@ -21,7 +21,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
         )
     }
 
-    override fun getItemCount(): Int = 16
+    override fun getItemCount(): Int = (mZooInfo.result?.results?.size) ?: 0
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         holder.bind(mZooInfo.result?.results?.get(position))
@@ -39,8 +39,10 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
             Glide.with(itemView).load(results?.E_Pic_URL).into(picture)
             name.text = results?.E_Name
             information.text = results?.E_Info
-            memo.text = results?.E_Memo
-
+//            memo.text = results?.E_Memo
+            memo.apply {
+                text = if ("".equals(results?.E_Memo)) "無休館資訊" else results?.E_Memo
+            }
         }
     }
 
