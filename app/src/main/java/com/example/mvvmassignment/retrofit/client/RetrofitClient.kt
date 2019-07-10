@@ -1,4 +1,4 @@
-package com.example.mvvmassignment.client
+package com.example.mvvmassignment.retrofit.client
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "https://data.taipei/opendata/datalist"
+    private const val BASE_URL = "https://data.taipei/opendata/datalist/apiAccess?scope=resourceAquire&rid"
     private var ourInstance : Retrofit?= null
 
     val instance: Retrofit
@@ -15,7 +15,7 @@ object RetrofitClient {
             if (ourInstance == null)
             {
                 ourInstance = Retrofit.Builder()
-                    .client(getOkHttpClient())
+//                    .client(getOkHttpClient())
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
