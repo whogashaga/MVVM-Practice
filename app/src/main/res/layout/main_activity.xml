@@ -5,8 +5,8 @@
     android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/color_white" >
+    android:background="@color/color_white"
+    tools:context=".MainActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,27 +23,20 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
+        android:theme="@style/ToolbarTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor = "@color/color_black"
+        android:text = "@string/taipei_city_zoo"
+        android:textSize = "12sp"
+        app:navigationIcon="@drawable/ic_navigation_icon"
         android:background="@drawable/background_toolbar_shadow"
         android:minHeight="?attr/actionBarSize"
-        app:titleTextAppearance="@color/color_black"
-        android:theme="?attr/actionBarTheme"
-        app:navigationIcon="@drawable/ic_navigation_icon"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-
-        <TextView
-            style="@style/ToolbarTitle"
-            android:id="@+id/toolbarTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="@string/taipei_city_zoo"  />
-
-    </androidx.appcompat.widget.Toolbar>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

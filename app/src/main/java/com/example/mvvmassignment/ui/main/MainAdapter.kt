@@ -6,9 +6,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.mvvmassignment.R
+import com.example.mvvmassignment.data.Results
+import com.example.mvvmassignment.data.ZooInfo
 
 class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+
+    private var mZooInfo = ZooInfo()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         return MainViewHolder(LayoutInflater.from(parent.context)
@@ -19,7 +24,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
     override fun getItemCount(): Int = 16
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(mZooInfo.result?.results?.get(position))
     }
 
     inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -30,9 +35,18 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
         var information: TextView = itemView.findViewById(R.id.text_hall_info)
         var memo: TextView = itemView.findViewById(R.id.text_hall_memo)
 
-        fun bind() {
+        fun bind(results: Results?) {
+            Glide.with(itemView).load(results?.E_Pic_URL).into(picture)
+            name.text = results?.E_Name
+            information.text = results?.E_Info
+            memo.text = results?.E_Memo
 
         }
+    }
+
+    fun updateData(zooInfo: ZooInfo) {
+        mZooInfo = zooInfo
+        notifyDataSetChanged()
     }
 
 }

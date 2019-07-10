@@ -15,4 +15,13 @@
         <item name="android:letterSpacing">0.15</item>
     </style>
 
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/color_black</item>
+        <item name="android:textColorSecondary">@color/color_black</item>
+        <item name="actionMenuTextColor">@color/color_black</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_black</item>
+        <item name="android:text">@string/taipei_city_zoo</item>
+    </style>
+
 </resources>
