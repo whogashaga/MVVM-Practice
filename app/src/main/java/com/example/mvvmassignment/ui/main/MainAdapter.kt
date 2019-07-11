@@ -23,10 +23,10 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
         )
     }
 
-    override fun getItemCount(): Int = (mZooInfo.result?.results?.size) ?: 0
+    override fun getItemCount(): Int = mResultsList.size
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.bind(mZooInfo.result?.results?.get(position))
+        holder.bind(mResultsList[position])
     }
 
     inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

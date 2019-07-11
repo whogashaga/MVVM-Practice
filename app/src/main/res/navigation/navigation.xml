@@ -11,13 +11,16 @@
         android:id= "@+id/main_fragment"
         android:label="@string/tag_fragment_main"
         tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_main_fragment_to_detail_fragment"
+            app:destination="@id/detail_fragment" />
     </fragment>
 
     <fragment
+        android:id="@+id/detail_fragment"
         android:name="com.example.mvvmassignment.ui.DetailFragment"
-        android:id= "@+id/detail_fragment"
-        android:label="@string/tag_fragment_detail"
-        tools:layout="@layout/fragment_detail">
+        android:label="@string/tag_fragment_detail">
+        <action android:id="@+id/action_detail_fragment_to_main_fragment" />
     </fragment>
 
 </navigation>
