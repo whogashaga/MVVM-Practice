@@ -29,7 +29,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
         holder.bind(mResultsList[position])
     }
 
-    inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         var itemLayout: View = itemView.findViewById(R.id.layout_item_main)
         var picture: ImageView = itemView.findViewById(R.id.image_hall_pic)
@@ -38,6 +38,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
         var memo: TextView = itemView.findViewById(R.id.text_hall_memo)
 
         fun bind(results: Results?) {
+            itemLayout.setOnClickListener(this)
             Glide.with(itemView).load(results?.E_Pic_URL).into(picture)
             name.text = results?.E_Name
             information.text = results?.E_Info
@@ -45,6 +46,11 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
                 text = if ("".equals(results?.E_Memo)) "無休館資訊" else results?.E_Memo
             }
         }
+
+        override fun onClick(view: View?) {
+
+        }
+
     }
 
     fun updateData(resultsList: List<Results>) {

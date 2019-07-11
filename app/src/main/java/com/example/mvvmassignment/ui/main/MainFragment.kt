@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmassignment.R
@@ -33,6 +34,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val root = inflater.inflate(R.layout.fragment_main, container, false)
+        btnJump = root.findViewById(R.id.button_jump)
         progressBar = root.findViewById(R.id.progressBar)
         recyclerView = root.findViewById(R.id.recycler_main_fragment)
         recyclerView.apply {
@@ -48,6 +50,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.setAnimalRepo()
+        btnJump.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.main_go2_detail))
     }
 
     private fun initializeViewModel() {

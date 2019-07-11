@@ -15,13 +15,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         mToolbar = findViewById(R.id.toolbar)
         setupToolbar(this, mToolbar)
-
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
-                .commitNow()
-        }
-
     }
 
     companion object {
