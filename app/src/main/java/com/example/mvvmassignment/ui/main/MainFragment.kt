@@ -44,7 +44,6 @@ class MainFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             adapter = mAdapter
         }
-
         return root
     }
 
