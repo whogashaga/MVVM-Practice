@@ -1,19 +1,12 @@
 package com.example.mvvmassignment.retrofit.client
 
-import androidx.lifecycle.MutableLiveData
-import com.example.mvvmassignment.data.ZooInfo
-import okhttp3.OkHttpClient
+import com.example.mvvmassignment.constant.Constants.Companion.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-
-    val liveUserResponse: MutableLiveData<ZooInfo> = MutableLiveData()
-
-
-    private const val BASE_URL = "https://data.taipei/opendata/datalist/"
     private var ourInstance : Retrofit?= null
 
     val instance: Retrofit
@@ -30,16 +23,6 @@ object RetrofitClient {
             return ourInstance!!
         }
 
-    private fun getOkHttpClient() : OkHttpClient {
 
-        return OkHttpClient.Builder()
-            .addInterceptor {
-                    chain -> val request = chain.request()
-                .newBuilder()
-                .removeHeader("user-agent")
-                .header("user-agent", "request")
-                .build()
-                chain.proceed(request)
-            }.build()
-    }
+
 }

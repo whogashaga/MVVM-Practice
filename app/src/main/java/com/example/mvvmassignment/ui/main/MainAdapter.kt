@@ -14,9 +14,11 @@ import com.example.mvvmassignment.data.ZooInfo
 class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     private var mZooInfo = ZooInfo()
+    private var mResultsList = ArrayList<Results>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        return MainViewHolder(LayoutInflater.from(parent.context)
+        return MainViewHolder(
+            LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_hall_info, parent, false)
         )
     }
@@ -39,15 +41,17 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
             Glide.with(itemView).load(results?.E_Pic_URL).into(picture)
             name.text = results?.E_Name
             information.text = results?.E_Info
-//            memo.text = results?.E_Memo
             memo.apply {
                 text = if ("".equals(results?.E_Memo)) "無休館資訊" else results?.E_Memo
             }
         }
     }
 
-    fun updateData(zooInfo: ZooInfo) {
-        mZooInfo = zooInfo
+    fun updateData(resultsList: List<Results>) {
+        mResultsList.clear()
+        resultsList.forEach { result ->
+            mResultsList.add(result)
+        }
         notifyDataSetChanged()
     }
 

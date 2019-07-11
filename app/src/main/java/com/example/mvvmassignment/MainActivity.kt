@@ -9,7 +9,6 @@ import com.example.mvvmassignment.ui.main.MainFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mToolbar: Toolbar
-    private val mainFragment = MainFragment.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,23 +16,12 @@ class MainActivity : AppCompatActivity() {
         mToolbar = findViewById(R.id.toolbar)
         setupToolbar(this, mToolbar)
 
-        addFragmentTo(R.id.container, mainFragment)
-//        if (savedInstanceState == null) {
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, MainFragment.newInstance())
-//                .commitNow()
-//        }
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, MainFragment.newInstance())
+                .commitNow()
+        }
 
-    }
-
-    private fun createFragment(): MainFragment = MainFragment.newInstance()
-
-    private fun AppCompatActivity.addFragmentTo(
-        containerId: Int,
-        fragment: Fragment,
-        tag: String = ""
-    ) {
-        supportFragmentManager.beginTransaction().add(containerId, fragment, tag).commit()
     }
 
     companion object {
