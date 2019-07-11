@@ -29,11 +29,6 @@ class ZooInfoRemote {
 
     fun getResults() = resultsLiveData as LiveData<List<Results>>
 
-//    fun getResults(): LiveData<List<Results>> {
-//        Log.e("Kerry", "ZooInfoRemote getResults = ${resultsLiveData.value}")
-//        return resultsLiveData
-//    }
-
     fun setAnimalInfo() {
         mApiService.getZooInfo().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

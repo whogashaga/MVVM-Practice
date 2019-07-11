@@ -20,12 +20,16 @@ class MainFragment : Fragment() {
     private val mAdapter = MainAdapter()
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
-    private lateinit var btnJump: Button
     private val factory = InjectUtils.provideMainViewModelFactory()
     private lateinit var viewModel: MainViewModel
 
     companion object {
         fun newInstance() = MainFragment()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initializeViewModel()
     }
 
     override fun onCreateView(
@@ -34,7 +38,6 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val root = inflater.inflate(R.layout.fragment_main, container, false)
-        btnJump = root.findViewById(R.id.button_jump)
         progressBar = root.findViewById(R.id.progressBar)
         recyclerView = root.findViewById(R.id.recycler_main_fragment)
         recyclerView.apply {
@@ -42,15 +45,11 @@ class MainFragment : Fragment() {
             adapter = mAdapter
         }
 
-        initializeViewModel()
-
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.setAnimalRepo()
-        btnJump.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.main_go2_detail))
     }
 
     private fun initializeViewModel() {
@@ -59,6 +58,7 @@ class MainFragment : Fragment() {
             .observe(this, Observer { list ->
                 mAdapter.updateData(list)
             })
+        viewModel.setAnimalRepo()
     }
 
 }

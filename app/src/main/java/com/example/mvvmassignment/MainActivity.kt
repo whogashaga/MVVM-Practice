@@ -15,6 +15,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         mToolbar = findViewById(R.id.toolbar)
         setupToolbar(this, mToolbar)
+        mToolbar.setNavigationOnClickListener { v ->
+            changeToolbarNavIcon(mToolbar)
+        }
     }
 
     companion object {
@@ -22,6 +25,14 @@ class MainActivity : AppCompatActivity() {
             activity.setSupportActionBar(toolbar)
             toolbar.setNavigationIcon(R.drawable.ic_navigation_icon)
             toolbar.setTitleTextColor(activity.resources.getColor(R.color.color_black))
+        }
+    }
+
+    fun changeToolbarNavIcon(toolbar: Toolbar) {
+        if (toolbar.navigationIcon!!.equals(R.drawable.ic_navigation_icon)) {
+            toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black)
+        } else {
+            toolbar.setNavigationIcon(R.drawable.ic_navigation_icon)
         }
     }
 
