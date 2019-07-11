@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    tools:ignore="UnusedNavigation"
+    app:startDestination="@id/main_fragment">
+
+    <fragment
+        android:name="com.example.mvvmassignment.ui.main.MainFragment"
+        android:id= "@+id/main_fragment"
+        android:label="@string/tag_fragment_main"
+        tools:layout="@layout/fragment_main">
+    </fragment>
+
+    <fragment
+        android:name="com.example.mvvmassignment.ui.DetailFragment"
+        android:id= "@+id/detail_fragment"
+        android:label="@string/tag_fragment_detail"
+        tools:layout="@layout/fragment_detail">
+    </fragment>
+
+</navigation>
