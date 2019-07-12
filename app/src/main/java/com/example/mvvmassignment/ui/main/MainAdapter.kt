@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mvvmassignment.R
 import com.example.mvvmassignment.data.Results
-import com.example.mvvmassignment.data.ZooInfo
 
 class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
-    private var mZooInfo = ZooInfo()
     private var mResultsList = ArrayList<Results>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -42,13 +40,22 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
             Glide.with(itemView).load(results?.E_Pic_URL).into(picture)
             name.text = results?.E_Name
             information.text = results?.E_Info
-            memo.apply {
-                text = if ("".equals(results?.E_Memo)) "無休館資訊" else results?.E_Memo
+            memo.text = filterString(results)
+
+            itemLayout.setOnClickListener { v ->
+                val action = MainFragmentDirections.actionMainFragmentToDetailFragment()
+                action.argPicUrl = results?.E_Pic_URL ?: ""
+                action.argDescription = results?.E_Info ?: ""
+                action.argCategory = results?.E_Category ?: ""
+                action.argWebUrl = results?.E_URL ?: ""
+                action.argMemo = filterString(results)
+                Navigation.findNavController(v).navigate(action)
             }
-
-            itemLayout.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.main_go2_detail))
         }
+    }
 
+    fun filterString(results: Results?): String {
+        return if ("" == results?.E_Memo) "無休館資訊" else results?.E_Memo.toString()
     }
 
     fun updateData(resultsList: List<Results>) {

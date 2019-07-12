@@ -12,15 +12,47 @@
         android:label="@string/tag_fragment_main"
         tools:layout="@layout/fragment_main">
         <action
-            android:id="@+id/main_go2_detail"
+            android:id="@+id/action_main_fragment_to_detail_fragment"
             app:destination="@id/detail_fragment" />
     </fragment>
 
     <fragment
         android:id="@+id/detail_fragment"
-        android:name="com.example.mvvmassignment.ui.DetailFragment"
+        android:name="com.example.mvvmassignment.ui.detail.DetailFragment"
         android:label="@string/tag_fragment_detail">
-        <action android:id="@+id/action_detail_fragment_to_main_fragment" />
+        <argument
+            android:name="arg_pic_url"
+            app:argType="string"
+            android:defaultValue="DP" />
+        <argument
+            android:name="arg_description"
+            app:argType="string"
+            android:defaultValue="DD" />
+        <argument
+            android:name="arg_memo"
+            app:argType="string"
+            android:defaultValue="DM" />
+        <argument
+            android:name="arg_category"
+            app:argType="string"
+            android:defaultValue="DC" />
+        <argument
+            android:name="arg_web_url"
+            app:argType="string"
+            android:defaultValue="DW" />
+        <action
+            android:id="@+id/action_detail_fragment_to_webFragment"
+            app:destination="@id/tag_fragment_web" />
+    </fragment>
+    <fragment
+        android:name="com.example.mvvmassignment.ui.WebFragment"
+        android:id="@+id/tag_fragment_web"
+        android:label="WebFragment"
+        tools:layout="@layout/fragment_web" >
+        <argument
+            android:name="web_url"
+            app:argType="string"
+            android:defaultValue="DW" />
     </fragment>
 
 </navigation>
