@@ -42,14 +42,14 @@
             android:defaultValue="DW" />
         <action
             android:id="@+id/action_detail_fragment_to_webFragment"
-            app:destination="@id/tag_fragment_web" />
+            app:destination="@id/web_view_fragment" />
         <argument
             android:name="title"
             android:defaultValue="Default" />
     </fragment>
     <fragment
         android:name="com.example.mvvmassignment.ui.WebFragment"
-        android:id="@+id/tag_fragment_web"
+        android:id="@+id/web_view_fragment"
         android:label="{arg_title}"
         tools:layout="@layout/fragment_web" >
         <argument

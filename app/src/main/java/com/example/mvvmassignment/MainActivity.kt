@@ -2,43 +2,78 @@ package com.example.mvvmassignment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
-import com.example.mvvmassignment.ui.main.MainFragment
+import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.main_activity.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var mToolbar: Toolbar
+    private lateinit var mDrawerLayout: DrawerLayout
+    private lateinit var mNavigationView: NavigationView
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        mToolbar = findViewById(R.id.toolbar)
-        setupToolbar(this, mToolbar)
 
-        val navController = Navigation.findNavController(this, R.id.fragment_nav_host)
-        NavigationUI.setupActionBarWithNavController(this, navController)
+        setupNavigation()
+    }
+
+    private fun setupNavigation() {
+        mToolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(mToolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        mToolbar.setTitleTextColor(resources.getColor(R.color.color_black))
+
+        mDrawerLayout = findViewById(R.id.layout_drawer)
+
+        mNavigationView = findViewById(R.id.navigationView)
+
+        navController = Navigation.findNavController(this, R.id.fragment_nav_host)
+
+        NavigationUI.setupActionBarWithNavController(this, navController, mDrawerLayout)
+
+        NavigationUI.setupWithNavController(navigationView, navController)
+
+        navigationView.setNavigationItemSelectedListener(this)
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return Navigation.findNavController(this, R.id.fragment_nav_host).navigateUp()
+        return NavigationUI.navigateUp(
+            Navigation.findNavController(this, R.id.fragment_nav_host),
+            mDrawerLayout
+        )
     }
 
-    companion object {
-        private fun setupToolbar(activity: AppCompatActivity, toolbar: Toolbar) {
-            activity.setSupportActionBar(toolbar)
-            toolbar.setNavigationIcon(R.drawable.ic_navigation_icon)
-            toolbar.setTitleTextColor(activity.resources.getColor(R.color.color_black))
+    override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+        menuItem.isChecked = true
+
+        mDrawerLayout.closeDrawers()
+
+        when (menuItem.itemId) {
+
+            R.id.first -> navController.navigate(R.id.detail_fragment)
+
+            R.id.second -> navController.navigate(R.id.web_view_fragment)
         }
+
+        return true
     }
 
-    fun changeToolbarNavIcon(toolbar: Toolbar) {
-        if (toolbar.navigationIcon!!.equals(R.drawable.ic_navigation_icon)) {
-            toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black)
+    override fun onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            toolbar.setNavigationIcon(R.drawable.ic_navigation_icon)
+            super.onBackPressed()
         }
     }
 
