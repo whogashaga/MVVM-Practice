@@ -1,6 +1,7 @@
 package com.example.mvvmassignment.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +42,9 @@ class DetailFragment : Fragment() {
             mMemo = it.getString(ARG_MEMO)
             mCategory = it.getString(ARG_CATEGORY)
         }
+        arguments?.getString(ARG_WEB_URL)?.let {
+            mWebUrl = it
+        }
         arguments?.getString(ARG_TITLE)?.let {
             mTitle = it
         }
@@ -63,6 +67,7 @@ class DetailFragment : Fragment() {
         mTextDescription.text = mDescription
         mTextMemo.text = mMemo
         mTextCategory.text = mCategory
+        Log.d("Kerry", "detail url = $mWebUrl")
 
         mTextOpenWeb.setOnClickListener { v ->
             val action = DetailFragmentDirections.actionDetailFragmentToWebFragment()

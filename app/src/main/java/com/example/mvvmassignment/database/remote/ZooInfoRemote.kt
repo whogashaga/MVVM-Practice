@@ -1,4 +1,4 @@
-package com.example.mvvmassignment.database
+package com.example.mvvmassignment.database.remote
 
 import android.util.Log
 import androidx.lifecycle.LiveData

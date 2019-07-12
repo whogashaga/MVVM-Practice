@@ -1,5 +1,7 @@
 package com.example.mvvmassignment.database
 
+import com.example.mvvmassignment.database.remote.ZooInfoRemote
+
 class ZooRepository constructor(private val zooInfoDao: ZooInfoRemote) {
 
     companion object {

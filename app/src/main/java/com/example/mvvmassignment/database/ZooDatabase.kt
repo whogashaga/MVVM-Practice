@@ -1,5 +1,7 @@
 package com.example.mvvmassignment.database
 
+import com.example.mvvmassignment.database.remote.ZooInfoRemote
+
 class ZooDatabase private constructor() {
 
     var zooDao = ZooInfoRemote()

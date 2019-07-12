@@ -2,6 +2,7 @@ package com.example.mvvmassignment.ui
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +31,7 @@ class WebFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_web, container, false)
         webView = root.findViewById(R.id.web_view)
+        Log.d("Kerry", "url = $url")
         webView.loadUrl(url)
 
         return root
