@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle" >
 
-    <solid android:color="#e2e3e3e3" />
-    <corners android:radius="2dp" />
-    <stroke
-        android:width="1px"
-        android:color="#ff5f504d" />
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-</shape>
+    <item
+        android:top="-2dp">
+
+        <shape>
+            <corners android:radius="2dp" />
+            <stroke
+                android:width="2dp"
+                android:color="@color/gray_999999" />
+            <solid android:color="@color/gray_f0f0f0"/>
+            <stroke
+                android:width="1px"
+                android:color="#66888888"/>
+        </shape>
+    </item>
+
+</layer-list>
