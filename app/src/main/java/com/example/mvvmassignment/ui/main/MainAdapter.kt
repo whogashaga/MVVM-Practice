@@ -14,6 +14,7 @@ import com.example.mvvmassignment.data.Results
 class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     private var mResultsList = ArrayList<Results>()
+    var callback: OnZooInfoClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         return MainViewHolder(
@@ -26,6 +27,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         holder.bind(mResultsList[position])
+        callback?.onInfoClick()
     }
 
     inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
