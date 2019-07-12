@@ -50,12 +50,16 @@
     <fragment
         android:name="com.example.mvvmassignment.ui.WebFragment"
         android:id="@+id/tag_fragment_web"
-        android:label="WebFragment"
+        android:label="{arg_title}"
         tools:layout="@layout/fragment_web" >
         <argument
             android:name="web_url"
             app:argType="string"
             android:defaultValue="DW" />
+        <argument
+            android:name="arg_title"
+            app:argType="string"
+            android:defaultValue="Default" />
     </fragment>
 
 </navigation>

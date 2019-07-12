@@ -16,6 +16,7 @@ private const val ARG_DESCRIPTION = "arg_description"
 private const val ARG_MEMO = "arg_memo"
 private const val ARG_CATEGORY = "arg_category"
 private const val ARG_WEB_URL = "arg_web_url"
+private const val ARG_TITLE = "title"
 
 class DetailFragment : Fragment() {
 
@@ -24,6 +25,7 @@ class DetailFragment : Fragment() {
     private var mMemo: String? = null
     private var mCategory: String? = null
     private var mWebUrl: String = ""
+    private var mTitle: String = ""
 
     private lateinit var mImagePicture: ImageView
     private lateinit var mTextDescription: TextView
@@ -39,8 +41,8 @@ class DetailFragment : Fragment() {
             mMemo = it.getString(ARG_MEMO)
             mCategory = it.getString(ARG_CATEGORY)
         }
-        arguments?.getString(ARG_WEB_URL)?.let {
-            mWebUrl = it
+        arguments?.getString(ARG_TITLE)?.let {
+            mTitle = it
         }
     }
 
@@ -65,6 +67,7 @@ class DetailFragment : Fragment() {
         mTextOpenWeb.setOnClickListener { v ->
             val action = DetailFragmentDirections.actionDetailFragmentToWebFragment()
             action.webUrl = mWebUrl
+            action.argTitle = mTitle
             Navigation.findNavController(v).navigate(action)
         }
 
@@ -78,7 +81,8 @@ class DetailFragment : Fragment() {
             description: String,
             memo: String,
             category: String,
-            webUrl: String
+            webUrl: String,
+            title: String
         ) =
             DetailFragment().apply {
                 arguments = Bundle().apply {
@@ -87,6 +91,7 @@ class DetailFragment : Fragment() {
                     putString(ARG_MEMO, memo)
                     putString(ARG_CATEGORY, category)
                     putString(ARG_WEB_URL, webUrl)
+                    putString(ARG_WEB_URL, title)
                 }
             }
     }
