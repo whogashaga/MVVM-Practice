@@ -9,7 +9,7 @@
     <fragment
         android:name="com.example.mvvmassignment.ui.main.MainFragment"
         android:id= "@+id/main_fragment"
-        android:label="@string/tag_fragment_main"
+        android:label="@string/taipei_city_zoo"
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_main_fragment_to_detail_fragment"
@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/detail_fragment"
         android:name="com.example.mvvmassignment.ui.detail.DetailFragment"
-        android:label="@string/tag_fragment_detail">
+        android:label="{title}">
         <argument
             android:name="arg_pic_url"
             app:argType="string"
@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_detail_fragment_to_webFragment"
             app:destination="@id/tag_fragment_web" />
+        <argument
+            android:name="title"
+            android:defaultValue="Default" />
     </fragment>
     <fragment
         android:name="com.example.mvvmassignment.ui.WebFragment"

@@ -51,6 +51,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
                 action.argCategory = results?.E_Category ?: ""
                 action.argWebUrl = results?.E_URL ?: ""
                 action.argMemo = filterString(results)
+                action.title = results?.E_Name ?: ""
                 Navigation.findNavController(v).navigate(action)
             }
         }
