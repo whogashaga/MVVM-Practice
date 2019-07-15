@@ -13,7 +13,7 @@
         <item name="colorControlNormal">@color/color_black</item>
         <item name="android:textColor">@color/color_black</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:letterSpacing">0.15</item>
+        <item name="android:letterSpacing">0.05</item>
     </style>
 
     <style name="ToolBarStyle" parent="Theme.AppCompat">

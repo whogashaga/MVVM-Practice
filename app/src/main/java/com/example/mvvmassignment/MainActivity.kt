@@ -2,13 +2,16 @@ package com.example.mvvmassignment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.mvvmassignment.constant.Constants
@@ -16,6 +19,8 @@ import com.example.mvvmassignment.data.AnimalResults
 import com.example.mvvmassignment.data.Animal
 import com.example.mvvmassignment.retrofit.client.RetrofitClient
 import com.example.mvvmassignment.retrofit.service.ApiService
+import com.example.mvvmassignment.ui.WebFragmentDirections
+import com.example.mvvmassignment.ui.detail.DetailFragmentDirections
 import com.example.mvvmassignment.ui.main.MainFragmentDirections
 import com.google.android.material.navigation.NavigationView
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -29,7 +34,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private lateinit var result: Animal
+
+    companion object {
+        private lateinit var result: Animal
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,24 +58,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navController = Navigation.findNavController(this, R.id.fragment_nav_host)
 
-        RetrofitClient.instance.create(ApiService::class.java)
-            .getZooInfo()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { zooInfo ->
-                    val subMenu = navigationView.menu.addSubMenu("動物區")
-                        .setIcon(R.drawable.ic_keyboard_backspace_black)
-                    result = zooInfo.result ?: Animal()
-
-                    zooInfo.result?.results?.forEach { results ->
-                        subMenu.add(0, results?._id ?: 0, 0, results?.E_Name)
-                            .setIcon(R.drawable.ic_keyboard_arrow_right_black)
-                    }
-                }
-                , { Log.d(Constants.TAG, "error = $it") }
-                , { Log.d(Constants.TAG, "load data onComplete!") })
-            .let { compositeDisposable.add(it) }
+        setDrawerMenu()
 
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
 
@@ -77,6 +68,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
+    private fun setDrawerMenu() {
+        RetrofitClient.instance.create(ApiService::class.java)
+            .getZooInfo()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { zooInfo ->
+                    val subMenu = navigationView.menu.addSubMenu("動物區")
+                    result = zooInfo.result ?: Animal()
+                    zooInfo.result?.results?.forEach { results ->
+                        subMenu.add(0, results?._id ?: 0, 0, results?.E_Name)
+                            .setIcon(R.drawable.ic_keyboard_arrow_right_black)
+                    }
+                }
+                , { Log.d(Constants.TAG, "error = $it") }
+                , { Log.d(Constants.TAG, "load data onComplete!") })
+            .let { compositeDisposable.add(it) }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(
             Navigation.findNavController(this, R.id.fragment_nav_host), drawerLayout
@@ -84,26 +94,50 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        menuItem.isChecked = true
+        menuItem.isChecked = false
         drawerLayout.closeDrawers()
+        var action: NavDirections = MainFragmentDirections.actionMainFragmentToDetailFragment(
+            result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
+        )
+
         when (menuItem.itemId) {
             menuItem.itemId -> {
-                val action =
-                    MainFragmentDirections.actionMainFragmentToDetailFragment(
-                        result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
-                    )
-                action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
-                navController.navigate(action)
+                when (navController.currentDestination?.id) {
+                    R.id.main_fragment -> {
+                        action = MainFragmentDirections.actionMainFragmentToDetailFragment(
+                            result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
+                        )
+                        action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
+                    }
+
+                    R.id.detail_fragment -> {
+                        action = DetailFragmentDirections.actionDetailFragmentSelf(
+                            result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
+                        )
+                        action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
+                    }
+
+                    R.id.web_view_fragment -> {
+                        action = WebFragmentDirections.actionWebViewFragmentToDetailFragment(
+                            result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
+                        )
+                        action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
+                    }
+                }
             }
         }
+        navController.navigate(action)
         return true
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
+        when {
+            drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
+            R.id.main_fragment != navController.currentDestination?.id -> navController.popBackStack(
+                R.id.main_fragment,
+                false
+            )
+            else -> super.onBackPressed()
         }
     }
 }

@@ -23,14 +23,16 @@
 
     <TextView
         android:id="@+id/text_hall_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:paddingTop="4dp"
         android:text="XX館"
+        android:singleLine="true"
         android:textColor="@color/color_black"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/text_hall_info"
+        app:layout_constraintEnd_toEndOf="@+id/text_hall_info"
         app:layout_constraintStart_toStartOf="@+id/text_hall_info"
         app:layout_constraintTop_toTopOf="parent" />
 
