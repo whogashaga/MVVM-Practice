@@ -11,6 +11,7 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -27,7 +28,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    NavController.OnDestinationChangedListener {
+
 
     private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
@@ -66,6 +69,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navigationView.setNavigationItemSelectedListener(this)
 
+        navController.addOnDestinationChangedListener(this)
+
     }
 
     private fun setDrawerMenu() {
@@ -94,49 +99,40 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        menuItem.isChecked = false
+        menuItem.isChecked = true
         drawerLayout.closeDrawers()
-        var action: NavDirections = MainFragmentDirections.actionMainFragmentToDetailFragment(
-            result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
-        )
-
-        when (menuItem.itemId) {
-            menuItem.itemId -> {
-                when (navController.currentDestination?.id) {
-                    R.id.main_fragment -> {
-                        action = MainFragmentDirections.actionMainFragmentToDetailFragment(
-                            result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
-                        )
-                        action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
-                    }
-
-                    R.id.detail_fragment -> {
-                        action = DetailFragmentDirections.actionDetailFragmentSelf(
-                            result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
-                        )
-                        action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
-                    }
-
-                    R.id.web_view_fragment -> {
-                        action = WebFragmentDirections.actionWebViewFragmentToDetailFragment(
-                            result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
-                        )
-                        action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
-                    }
-                }
-            }
-        }
+        val action =
+            MainFragmentDirections.actionMainFragmentToDetailFragment(
+                result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
+            )
+        action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
         navController.navigate(action)
         return true
+    }
+
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?
+    ) {
+        if (destination.id == R.id.main_fragment) {
+            setDrawerDisable(false)
+        } else {
+            setDrawerDisable(true)
+        }
+    }
+
+    private fun setDrawerDisable(isDisable: Boolean) {
+        if (isDisable) {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        } else {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        }
     }
 
     override fun onBackPressed() {
         when {
             drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
-            R.id.main_fragment != navController.currentDestination?.id -> navController.popBackStack(
-                R.id.main_fragment,
-                false
-            )
             else -> super.onBackPressed()
         }
     }
