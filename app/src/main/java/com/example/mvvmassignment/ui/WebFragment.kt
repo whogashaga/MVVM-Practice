@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 
 import com.example.mvvmassignment.R
+import com.example.mvvmassignment.constant.Constants
 
 private const val ARG_URL = "web_url"
 
@@ -31,7 +32,7 @@ class WebFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_web, container, false)
         webView = root.findViewById(R.id.web_view)
-        Log.d("Kerry", "url = $url")
+        Log.d(Constants.TAG, "url = $url")
         webView.loadUrl(url)
 
         return root

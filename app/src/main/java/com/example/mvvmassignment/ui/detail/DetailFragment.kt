@@ -68,10 +68,10 @@ class DetailFragment : Fragment() {
         mTextDescription.text = mDescription
         mTextMemo.text = mMemo
         mTextCategory.text = mCategory
-        Log.d("Kerry", "detail url = $mWebUrl")
+//        Log.d(Constants.TAG, "detail url = $mWebUrl")
 
         mTextOpenWeb.setOnClickListener { v ->
-            Snackbar.make(v, "目前瀏覽人數眾多, 請耐心等候畫面出現", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
+            Snackbar.make(v, "目前瀏覽人數眾多 請耐心等候畫面", Snackbar.LENGTH_LONG).setAction("Action", null).show()
 
             val action = DetailFragmentDirections.actionDetailFragmentToWebFragment()
             action.webUrl = mWebUrl

@@ -3,16 +3,6 @@
 
     <group android:checkableBehavior="single">
 
-        <item
-            android:id="@+id/first"
-            android:icon="@drawable/ic_keyboard_arrow_right_black"
-            android:title="DetailFragment" />
-
-        <item
-            android:id="@+id/second"
-            android:icon="@drawable/ic_keyboard_backspace_black"
-            android:title="WebViewFragment" />
-
     </group>
 
 </menu>
