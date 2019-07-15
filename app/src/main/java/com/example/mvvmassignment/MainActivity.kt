@@ -13,7 +13,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.mvvmassignment.constant.Constants
 import com.example.mvvmassignment.data.Results
-import com.example.mvvmassignment.data.ZooDetail
+import com.example.mvvmassignment.data.Animal
 import com.example.mvvmassignment.retrofit.client.RetrofitClient
 import com.example.mvvmassignment.retrofit.service.ApiService
 import com.example.mvvmassignment.ui.main.MainFragmentDirections
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private lateinit var result: ZooDetail
+    private lateinit var result: Animal
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,10 +56,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { zooInfo ->
-                    result = zooInfo.result ?: ZooDetail()
+                    val subMenu = navigationView.menu.addSubMenu("動物區")
+                        .setIcon(R.drawable.ic_keyboard_backspace_black)
+                    result = zooInfo.result ?: Animal()
+
                     zooInfo.result?.results?.forEach { results ->
-                        navigationView.menu
-                            .add(0, results?._id ?: 0, 0, results?.E_Name)
+                        subMenu.add(0, results?._id ?: 0, 0, results?.E_Name)
                             .setIcon(R.drawable.ic_keyboard_arrow_right_black)
                     }
                 }
@@ -88,7 +90,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             menuItem.itemId -> {
                 val action =
                     MainFragmentDirections.actionMainFragmentToDetailFragment(
-                        result.results?.get(menuItem.itemId - 1) ?: Results())
+                        result.results?.get(menuItem.itemId - 1) ?: Results()
+                    )
                 action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
                 navController.navigate(action)
             }
