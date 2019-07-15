@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.example.mvvmassignment.R
+import com.google.android.material.snackbar.Snackbar
 
 private const val ARG_PIC_URL = "arg_pic_url"
 private const val ARG_DESCRIPTION = "arg_description"
@@ -70,6 +71,8 @@ class DetailFragment : Fragment() {
         Log.d("Kerry", "detail url = $mWebUrl")
 
         mTextOpenWeb.setOnClickListener { v ->
+            Snackbar.make(v, "目前瀏覽人數眾多, 請耐心等候畫面出現", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
+
             val action = DetailFragmentDirections.actionDetailFragmentToWebFragment()
             action.webUrl = mWebUrl
             action.argTitle = mTitle

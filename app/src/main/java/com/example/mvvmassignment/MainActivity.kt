@@ -49,9 +49,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(
-            Navigation.findNavController(this, R.id.fragment_nav_host),
-            mDrawerLayout
-        )
+            Navigation.findNavController(this, R.id.fragment_nav_host), mDrawerLayout)
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
