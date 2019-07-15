@@ -48,7 +48,7 @@
             android:defaultValue="Default" />
         <argument
             android:name="arg_object"
-            app:argType="com.example.mvvmassignment.data.Results" />
+            app:argType="com.example.mvvmassignment.data.AnimalResults" />
     </fragment>
     <fragment
         android:name="com.example.mvvmassignment.ui.WebFragment"

@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmassignment.constant.Constants
-import com.example.mvvmassignment.data.Results
+import com.example.mvvmassignment.data.AnimalResults
 import com.example.mvvmassignment.retrofit.client.RetrofitClient
 import com.example.mvvmassignment.retrofit.service.ApiService
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,8 +13,8 @@ import io.reactivex.schedulers.Schedulers
 
 class ZooInfoRemote {
 
-    private val resultsList = mutableListOf<Results>()
-    private val resultsLiveData = MutableLiveData<List<Results>>()
+    private val resultsList = mutableListOf<AnimalResults>()
+    private val resultsLiveData = MutableLiveData<List<AnimalResults>>()
 
     private val apiService: ApiService = RetrofitClient.instance.create(ApiService::class.java)
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -23,12 +23,12 @@ class ZooInfoRemote {
         resultsLiveData.value = resultsList
     }
 
-    private fun addInfo(results: Results) {
-        resultsList.add(results)
+    private fun addInfo(animalResults: AnimalResults) {
+        resultsList.add(animalResults)
         resultsLiveData.value = resultsList
     }
 
-    fun getResults() = resultsLiveData as LiveData<List<Results>>
+    fun getResults() = resultsLiveData as LiveData<List<AnimalResults>>
 
     fun setAnimalInfo() {
         apiService.getZooInfo().subscribeOn(Schedulers.io())
@@ -36,7 +36,7 @@ class ZooInfoRemote {
             .subscribe(
                 { zooInfo ->
                     zooInfo.result?.results?.forEach { results ->
-                        addInfo(results ?: Results())
+                        addInfo(results ?: AnimalResults())
                         Log.d(Constants.TAG, "name = " + results?.E_Name)
                     }
                     Log.w(Constants.TAG, "list = " + (resultsLiveData.value))

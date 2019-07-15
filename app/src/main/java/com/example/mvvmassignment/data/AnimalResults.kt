@@ -2,7 +2,7 @@ package com.example.mvvmassignment.data
 
 import java.io.Serializable
 
-data class Results(
+data class AnimalResults(
     val E_Category: String? = "",
     val E_Geo: String? = "",
     val E_Info: String? = "",

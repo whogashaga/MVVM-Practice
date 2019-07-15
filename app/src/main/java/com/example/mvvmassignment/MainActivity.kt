@@ -12,7 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.mvvmassignment.constant.Constants
-import com.example.mvvmassignment.data.Results
+import com.example.mvvmassignment.data.AnimalResults
 import com.example.mvvmassignment.data.Animal
 import com.example.mvvmassignment.retrofit.client.RetrofitClient
 import com.example.mvvmassignment.retrofit.service.ApiService
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             menuItem.itemId -> {
                 val action =
                     MainFragmentDirections.actionMainFragmentToDetailFragment(
-                        result.results?.get(menuItem.itemId - 1) ?: Results()
+                        result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
                     )
                 action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
                 navController.navigate(action)
