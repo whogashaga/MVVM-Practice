@@ -37,7 +37,10 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        android:background="@color/gray_888888"
+        app:itemTextColor="@color/color_black"
+        app:itemIconTint="@color/gray_888888"
+        app:itemBackground="@drawable/bg_button_white"
+        android:background="@color/color_white"
         app:headerLayout="@layout/header_layout"
         app:menu="@menu/drawer_menu" />
 

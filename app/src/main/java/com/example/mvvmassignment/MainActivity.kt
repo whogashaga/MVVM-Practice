@@ -13,7 +13,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.mvvmassignment.constant.Constants
 import com.example.mvvmassignment.data.Results
-import com.example.mvvmassignment.data.ZooInformation
+import com.example.mvvmassignment.data.ZooDetail
 import com.example.mvvmassignment.retrofit.client.RetrofitClient
 import com.example.mvvmassignment.retrofit.service.ApiService
 import com.example.mvvmassignment.ui.main.MainFragmentDirections
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private lateinit var result: ZooInformation
+    private lateinit var result: ZooDetail
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,10 +56,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { zooInfo ->
-                    result = zooInfo.result ?: ZooInformation()
+                    result = zooInfo.result ?: ZooDetail()
                     zooInfo.result?.results?.forEach { results ->
-                        navigationView.menu.add(0, results?._id ?: 0, 0, results?.E_Name)
-                        Log.d(Constants.TAG, "name = " + results?.E_Name)
+                        navigationView.menu
+                            .add(0, results?._id ?: 0, 0, results?.E_Name)
+                            .setIcon(R.drawable.ic_keyboard_arrow_right_black)
                     }
                 }
                 , { Log.d(Constants.TAG, "error = $it") }
@@ -82,23 +83,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         menuItem.isChecked = true
-
         drawerLayout.closeDrawers()
-
         when (menuItem.itemId) {
-
             menuItem.itemId -> {
-                val action = MainFragmentDirections.actionMainFragmentToDetailFragment()
-                action.argPicUrl = result.results?.get(menuItem.itemId - 1)?.E_Pic_URL.toString()
-                action.argDescription = result.results?.get(menuItem.itemId - 1)?.E_Info ?: ""
-                action.argCategory = result.results?.get(menuItem.itemId - 1)?.E_Category ?: ""
-                action.argWebUrl = result.results?.get(menuItem.itemId - 1)?.E_URL ?: ""
+                val action =
+                    MainFragmentDirections.actionMainFragmentToDetailFragment(
+                        result.results?.get(menuItem.itemId - 1) ?: Results())
                 action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
-                action.argMemo = filterString(result.results?.get(menuItem.itemId - 1))
                 navController.navigate(action)
             }
         }
-
         return true
     }
 
@@ -109,9 +103,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             super.onBackPressed()
         }
     }
-
-    fun filterString(results: Results?): String {
-        return if ("" == results?.E_Memo) "無休館資訊" else results?.E_Memo.toString()
-    }
-
 }

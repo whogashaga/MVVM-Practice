@@ -1,7 +1,6 @@
 package com.example.mvvmassignment.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,23 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.example.mvvmassignment.R
+import com.example.mvvmassignment.data.Results
 import com.google.android.material.snackbar.Snackbar
 
-private const val ARG_PIC_URL = "arg_pic_url"
-private const val ARG_DESCRIPTION = "arg_description"
-private const val ARG_MEMO = "arg_memo"
-private const val ARG_CATEGORY = "arg_category"
-private const val ARG_WEB_URL = "arg_web_url"
 private const val ARG_TITLE = "title"
+private const val ARG_OBJECT = "arg_object"
 
 class DetailFragment : Fragment() {
 
-    private var mPicUrl: String? = null
-    private var mDescription: String? = null
-    private var mMemo: String? = null
-    private var mCategory: String? = null
-    private var mWebUrl: String = ""
     private var mTitle: String = ""
+    private var mResults: Results? = null
 
     private lateinit var mImagePicture: ImageView
     private lateinit var mTextDescription: TextView
@@ -37,17 +29,12 @@ class DetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            mPicUrl = it.getString(ARG_PIC_URL)
-            mDescription = it.getString(ARG_DESCRIPTION)
-            mMemo = it.getString(ARG_MEMO)
-            mCategory = it.getString(ARG_CATEGORY)
-        }
-        arguments?.getString(ARG_WEB_URL)?.let {
-            mWebUrl = it
-        }
+
         arguments?.getString(ARG_TITLE)?.let {
             mTitle = it
+        }
+        arguments?.getSerializable(ARG_OBJECT).let {
+            mResults = it as? Results
         }
     }
 
@@ -64,42 +51,37 @@ class DetailFragment : Fragment() {
         mTextCategory = root.findViewById(R.id.text_detail_category)
         mTextOpenWeb = root.findViewById(R.id.text_open_web)
 
-        Glide.with(root).load(mPicUrl).into(mImagePicture)
-        mTextDescription.text = mDescription
-        mTextMemo.text = mMemo
-        mTextCategory.text = mCategory
-//        Log.d(Constants.TAG, "detail url = $mWebUrl")
+        Glide.with(root).load(mResults?.E_Pic_URL).into(mImagePicture)
+        mTextDescription.text = mResults?.E_Info
+        mTextMemo.text = filterString(mResults)
+        mTextCategory.text = mResults?.E_Category
 
         mTextOpenWeb.setOnClickListener { v ->
-            Snackbar.make(v, "目前瀏覽人數眾多 請耐心等候畫面", Snackbar.LENGTH_LONG).setAction("Action", null).show()
+            Snackbar.make(v, "目前瀏覽人數眾多 請耐心等候畫面", Snackbar.LENGTH_LONG).setAction("Action", null)
+                .show()
 
             val action = DetailFragmentDirections.actionDetailFragmentToWebFragment()
-            action.webUrl = mWebUrl
+            action.webUrl = mResults?.E_URL ?: ""
             action.argTitle = mTitle
             Navigation.findNavController(v).navigate(action)
         }
-
         return root
+    }
+
+    private fun filterString(results: Results?): String {
+        return if ("" == results?.E_Memo) "無休館資訊" else results?.E_Memo.toString()
     }
 
     companion object {
         @JvmStatic
         fun newInstance(
-            picUrl: String,
-            description: String,
-            memo: String,
-            category: String,
-            webUrl: String,
-            title: String
+            title: String,
+            results: Results
         ) =
             DetailFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PIC_URL, picUrl)
-                    putString(ARG_DESCRIPTION, description)
-                    putString(ARG_MEMO, memo)
-                    putString(ARG_CATEGORY, category)
-                    putString(ARG_WEB_URL, webUrl)
-                    putString(ARG_WEB_URL, title)
+                    putString(ARG_TITLE, title)
+                    putSerializable(ARG_OBJECT, results)
                 }
             }
     }

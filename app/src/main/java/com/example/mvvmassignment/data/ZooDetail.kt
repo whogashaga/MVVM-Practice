@@ -1,6 +1,6 @@
 package com.example.mvvmassignment.data
 
-data class ZooInformation(
+data class ZooDetail(
     val count: Int? = 0,
     val limit: Int? = 0,
     val offset: Int? = 0,

@@ -45,12 +45,8 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
             memo.text = filterString(results)
 
             itemLayout.setOnClickListener { v ->
-                val action = MainFragmentDirections.actionMainFragmentToDetailFragment()
-                action.argPicUrl = results?.E_Pic_URL ?: ""
-                action.argDescription = results?.E_Info ?: ""
-                action.argCategory = results?.E_Category ?: ""
-                action.argWebUrl = results?.E_URL ?: ""
-                action.argMemo = filterString(results)
+                val action =
+                    MainFragmentDirections.actionMainFragmentToDetailFragment(results ?: Results())
                 action.title = results?.E_Name ?: ""
                 Navigation.findNavController(v).navigate(action)
             }

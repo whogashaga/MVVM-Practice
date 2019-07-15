@@ -46,6 +46,9 @@
         <argument
             android:name="title"
             android:defaultValue="Default" />
+        <argument
+            android:name="arg_object"
+            app:argType="com.example.mvvmassignment.data.Results" />
     </fragment>
     <fragment
         android:name="com.example.mvvmassignment.ui.WebFragment"
