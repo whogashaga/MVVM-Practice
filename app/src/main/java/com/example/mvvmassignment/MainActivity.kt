@@ -99,7 +99,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        menuItem.isChecked = true
         drawerLayout.closeDrawers()
         val action =
             MainFragmentDirections.actionMainFragmentToDetailFragment(

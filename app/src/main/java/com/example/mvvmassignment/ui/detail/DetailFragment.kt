@@ -57,7 +57,7 @@ class DetailFragment : Fragment() {
         mTextCategory.text = mAnimalResults?.E_Category
 
         mTextOpenWeb.setOnClickListener { v ->
-            Snackbar.make(v, "目前瀏覽人數眾多 請耐心等候畫面", Snackbar.LENGTH_LONG).setAction("Action", null)
+            Snackbar.make(v, "目前瀏覽人數眾多 請耐心等候畫面", Snackbar.LENGTH_SHORT).setAction("Action", null)
                 .show()
 
             val action = DetailFragmentDirections.actionDetailFragmentToWebFragment()
