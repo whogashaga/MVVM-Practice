@@ -3,7 +3,7 @@ package com.example.mvvmassignment.database.remote
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.mvvmassignment.constant.Constants
+import com.example.mvvmassignment.constant.Constants.Companion.TAG
 import com.example.mvvmassignment.data.AnimalResults
 import com.example.mvvmassignment.retrofit.client.RetrofitClient
 import com.example.mvvmassignment.retrofit.service.ApiService
@@ -28,7 +28,10 @@ class ZooInfoRemote {
         resultsLiveData.value = resultsList
     }
 
-    fun getResults() = resultsLiveData as LiveData<List<AnimalResults>>
+    fun getResults(): LiveData<List<AnimalResults>> {
+        setAnimalInfo()
+        return resultsLiveData
+    }
 
     fun setAnimalInfo() {
         apiService.getZooInfo().subscribeOn(Schedulers.io())
@@ -37,12 +40,12 @@ class ZooInfoRemote {
                 { zooInfo ->
                     zooInfo.result?.results?.forEach { results ->
                         addInfo(results ?: AnimalResults())
-                        Log.d(Constants.TAG, "name = " + results?.E_Name)
+                        Log.d(TAG, "name = " + results?.E_Name)
                     }
-                    Log.w(Constants.TAG, "list = " + (resultsLiveData.value))
+                    Log.w(TAG, "list = " + (resultsLiveData.value))
                 }
-                , { Log.d(Constants.TAG, "error = $it") }
-                , { Log.d(Constants.TAG, "load data onComplete!") })
+                , { Log.d(TAG, "error = $it") }
+                , { Log.d(TAG, "load data onComplete!") })
             .let { compositeDisposable.add(it) }
     }
 }
