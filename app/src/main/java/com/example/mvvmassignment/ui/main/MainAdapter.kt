@@ -5,16 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mvvmassignment.R
 import com.example.mvvmassignment.data.AnimalResults
 
-class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+class MainAdapter(private var viewModel: MainViewModel) : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     private var mResultsList = ArrayList<AnimalResults>()
-    var callback: OnZooInfoClickListener? = null
+    var callback: OnHallInfoClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         return MainViewHolder(
@@ -42,20 +41,12 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
             Glide.with(itemView).load(animalResults?.E_Pic_URL).into(picture)
             name.text = animalResults?.E_Name
             information.text = animalResults?.E_Info
-            memo.text = filterString(animalResults)
+            memo.text = viewModel.filterString(animalResults)
 
-            itemLayout.setOnClickListener { v ->
-                val action =
-                    MainFragmentDirections.actionMainFragmentToDetailFragment(animalResults ?: AnimalResults())
-                action.title = animalResults?.E_Name ?: ""
-                action.argPosition = position
-                Navigation.findNavController(v).navigate(action)
+            itemLayout.setOnClickListener { view ->
+                viewModel.onClickListItem(animalResults, view)
             }
         }
-    }
-
-    fun filterString(animalResults: AnimalResults?): String {
-        return if ("" == animalResults?.E_Memo) "無休館資訊" else animalResults?.E_Memo.toString()
     }
 
     fun updateData(animalResultsList: List<AnimalResults>) {
@@ -66,8 +57,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
         notifyDataSetChanged()
     }
 
-    interface OnZooInfoClickListener {
-        fun onInfoClick(position: Int)
+    interface OnHallInfoClickListener {
+        fun onInfoClick(position:Int)
     }
-
 }

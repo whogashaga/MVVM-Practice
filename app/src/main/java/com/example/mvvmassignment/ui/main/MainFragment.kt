@@ -15,15 +15,13 @@ import com.example.mvvmassignment.utils.InjectUtils
 
 class MainFragment : Fragment() {
 
-    private val mAdapter = MainAdapter()
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private val factory = InjectUtils.provideMainViewModelFactory()
-    private lateinit var viewModel: MainViewModel
-
-    companion object {
-        fun newInstance() = MainFragment()
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
     }
+    private val mAdapter: MainAdapter by lazy { MainAdapter(viewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +45,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mAdapter.callback = object : MainAdapter.OnZooInfoClickListener {
+        mAdapter.callback = object : MainAdapter.OnHallInfoClickListener {
             override fun onInfoClick(position: Int) {
                 progressBar.visibility = View.GONE
             }
@@ -55,11 +53,8 @@ class MainFragment : Fragment() {
     }
 
     private fun initializeViewModel() {
-        viewModel = ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
-        viewModel.items
-            .observe(this, Observer { list ->
-                mAdapter.updateData(list)
-            })
+        viewModel.items.observe(this, Observer { list ->
+            mAdapter.updateData(list)
+        })
     }
-
 }
