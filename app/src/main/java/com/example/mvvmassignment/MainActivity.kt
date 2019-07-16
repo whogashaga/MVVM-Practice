@@ -143,12 +143,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.detail_fragment -> {
                 clearChecked()
                 arguments?.getInt("arg_position").let {
-                    navigationView.menu.getItem(0).subMenu.getItem(it ?: 0).isChecked = true
-                    Log.e(Constants.TAG, "position = ${it.toString()}")
+                    if (navigationView.menu?.size() != 0) {
+                        navigationView.menu.getItem(0).subMenu.getItem(it ?: 0).isChecked = true
+                    }
                 }
             }
 
-            R.id.main_fragment -> if (navigationView.menu?.size() != 0) clearChecked()
+            R.id.main_fragment -> clearChecked()
         }
     }
 
@@ -164,8 +165,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun clearChecked() {
-        for (i in 0..17) {
-            navigationView.menu.getItem(0).subMenu.getItem(i).isChecked = false
+        if (navigationView.menu?.size() != 0) {
+            for (i in 0..17) {
+                navigationView.menu.getItem(0).subMenu.getItem(i).isChecked = false
+            }
         }
     }
 }
