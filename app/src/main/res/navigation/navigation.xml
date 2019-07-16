@@ -32,6 +32,10 @@
         <action
             android:id="@+id/action_detail_fragment_self"
             app:destination="@id/detail_fragment" />
+        <argument
+            android:name="arg_position"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:name="com.example.mvvmassignment.ui.WebFragment"

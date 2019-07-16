@@ -26,8 +26,8 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
     override fun getItemCount(): Int = mResultsList.size
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.bind(mResultsList[position])
-        callback?.onInfoClick()
+        holder.bind(mResultsList[position], position)
+        callback?.onInfoClick(position)
     }
 
     inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -38,7 +38,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
         var information: TextView = itemView.findViewById(R.id.text_hall_info)
         var memo: TextView = itemView.findViewById(R.id.text_hall_memo)
 
-        fun bind(animalResults: AnimalResults?) {
+        fun bind(animalResults: AnimalResults?, position: Int) {
             Glide.with(itemView).load(animalResults?.E_Pic_URL).into(picture)
             name.text = animalResults?.E_Name
             information.text = animalResults?.E_Info
@@ -48,6 +48,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
                 val action =
                     MainFragmentDirections.actionMainFragmentToDetailFragment(animalResults ?: AnimalResults())
                 action.title = animalResults?.E_Name ?: ""
+                action.argPosition = position
                 Navigation.findNavController(v).navigate(action)
             }
         }
@@ -66,7 +67,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
     }
 
     interface OnZooInfoClickListener {
-        fun onInfoClick()
+        fun onInfoClick(position: Int)
     }
 
 }

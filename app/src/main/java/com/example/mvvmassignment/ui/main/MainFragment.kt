@@ -48,7 +48,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mAdapter.callback = object : MainAdapter.OnZooInfoClickListener {
-            override fun onInfoClick() {
+            override fun onInfoClick(position: Int) {
                 progressBar.visibility = View.GONE
             }
         }

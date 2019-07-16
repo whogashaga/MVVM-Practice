@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 
 private const val ARG_TITLE = "title"
 private const val ARG_OBJECT = "arg_object"
+private const val ARG_POSITION = "arg_position"
 
 class DetailFragment : Fragment() {
 
@@ -76,12 +77,14 @@ class DetailFragment : Fragment() {
         @JvmStatic
         fun newInstance(
             title: String,
-            animalResults: AnimalResults
+            animalResults: AnimalResults,
+            position: Int
         ) =
             DetailFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_TITLE, title)
                     putSerializable(ARG_OBJECT, animalResults)
+                    putInt(ARG_POSITION, position)
                 }
             }
     }

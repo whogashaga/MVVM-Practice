@@ -11,6 +11,7 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -27,7 +28,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    NavController.OnDestinationChangedListener {
 
     private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
@@ -66,6 +68,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navigationView.setNavigationItemSelectedListener(this)
 
+        navController.addOnDestinationChangedListener(this)
+
     }
 
     private fun setDrawerMenu() {
@@ -81,7 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         subMenu.add(0, results?._id ?: 0, 0, results?.E_Name)
                             .setIcon(R.drawable.ic_keyboard_arrow_right_black)
                     }
-                    subMenu.setGroupCheckable(0, true, true);
+                    subMenu.setGroupCheckable(0, true, true)
                 }
                 , { Log.d(Constants.TAG, "error = $it") }
                 , { Log.d(Constants.TAG, "load data onComplete!") })
@@ -93,11 +97,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        menuItem.isChecked = true
+        clearChecked()
         drawerLayout.closeDrawers()
-        var action: NavDirections = MainFragmentDirections.actionMainFragmentToDetailFragment(
-            result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
-        )
+        lateinit var action: NavDirections
         when (menuItem.itemId) {
             menuItem.itemId -> {
                 when (navController.currentDestination?.id) {
@@ -106,6 +108,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
                         )
                         action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
+                        action.argPosition = menuItem.itemId - 1
                     }
 
                     R.id.detail_fragment -> {
@@ -113,6 +116,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
                         )
                         action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
+                        action.argPosition = menuItem.itemId - 1
                     }
 
                     R.id.web_view_fragment -> {
@@ -120,22 +124,48 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
                         )
                         action.title = result.results?.get(menuItem.itemId - 1)?.E_Name ?: ""
+                        action.argPosition = menuItem.itemId - 1
                     }
                 }
             }
         }
+        menuItem.isChecked = true
         navController.navigate(action)
         return true
+    }
+
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?
+    ) {
+        when (destination.id) {
+            R.id.detail_fragment -> {
+                clearChecked()
+                arguments?.getInt("arg_position").let {
+                    navigationView.menu.getItem(0).subMenu.getItem(it ?: 0).isChecked = true
+                    Log.e(Constants.TAG, "position = ${it.toString()}")
+                }
+            }
+
+            R.id.main_fragment -> if (navigationView.menu?.size() != 0) clearChecked()
+        }
     }
 
     override fun onBackPressed() {
         when {
             drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
-            R.id.main_fragment != navController.currentDestination?.id -> navController.popBackStack(
-                R.id.main_fragment,
-                false
-            )
+
+            R.id.main_fragment != navController.currentDestination?.id ->
+                navController.popBackStack(R.id.main_fragment, false)
+
             else -> super.onBackPressed()
+        }
+    }
+
+    private fun clearChecked() {
+        for (i in 0..17) {
+            navigationView.menu.getItem(0).subMenu.getItem(i).isChecked = false
         }
     }
 }
