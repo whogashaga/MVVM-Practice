@@ -2,17 +2,14 @@ package com.example.mvvmassignment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
-import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.mvvmassignment.constant.Constants
@@ -20,8 +17,6 @@ import com.example.mvvmassignment.data.AnimalResults
 import com.example.mvvmassignment.data.Animal
 import com.example.mvvmassignment.retrofit.client.RetrofitClient
 import com.example.mvvmassignment.retrofit.service.ApiService
-import com.example.mvvmassignment.ui.WebFragmentDirections
-import com.example.mvvmassignment.ui.detail.DetailFragmentDirections
 import com.example.mvvmassignment.ui.main.MainFragmentDirections
 import com.google.android.material.navigation.NavigationView
 import io.reactivex.android.schedulers.AndroidSchedulers

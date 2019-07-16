@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.example.mvvmassignment.R
 import com.example.mvvmassignment.data.AnimalResults
-import com.google.android.material.snackbar.Snackbar
+import com.example.mvvmassignment.ui.main.MainViewModel
+import com.example.mvvmassignment.utils.InjectUtils
 
 private const val ARG_TITLE = "title"
 private const val ARG_OBJECT = "arg_object"
@@ -26,6 +27,11 @@ class DetailFragment : Fragment() {
     private lateinit var mTextMemo: TextView
     private lateinit var mTextCategory: TextView
     private lateinit var mTextOpenWeb: TextView
+
+    private val factory = InjectUtils.provideMainViewModelFactory()
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,23 +59,13 @@ class DetailFragment : Fragment() {
 
         Glide.with(root).load(mAnimalResults?.E_Pic_URL).into(mImagePicture)
         mTextDescription.text = mAnimalResults?.E_Info
-        mTextMemo.text = filterString(mAnimalResults)
+        mTextMemo.text = viewModel.filterString(mAnimalResults)
         mTextCategory.text = mAnimalResults?.E_Category
 
-        mTextOpenWeb.setOnClickListener { v ->
-            Snackbar.make(v, "目前瀏覽人數眾多 請耐心等候畫面", Snackbar.LENGTH_SHORT).setAction("Action", null)
-                .show()
-
-            val action = DetailFragmentDirections.actionDetailFragmentToWebFragment()
-            action.webUrl = mAnimalResults?.E_URL ?: ""
-            action.argTitle = mTitle
-            Navigation.findNavController(v).navigate(action)
+        mTextOpenWeb.setOnClickListener { view ->
+            viewModel.onClickOpenWebView(mAnimalResults, view)
         }
         return root
-    }
-
-    private fun filterString(animalResults: AnimalResults?): String {
-        return if ("" == animalResults?.E_Memo) "無休館資訊" else animalResults?.E_Memo.toString()
     }
 
     companion object {
