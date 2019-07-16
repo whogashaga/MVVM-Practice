@@ -5,7 +5,7 @@ import com.example.mvvmassignment.database.ZooRepository
 
 class MainViewModel(private val zooRepository: ZooRepository) : ViewModel() {
 
-    fun getZooRepo() = zooRepository.getZooInfoLiveData()
+    val items = zooRepository.getZooInfoLiveData()
 
     fun setAnimalRepo() = zooRepository.setAnimalData()
 }

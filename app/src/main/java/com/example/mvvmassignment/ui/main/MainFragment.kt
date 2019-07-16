@@ -56,11 +56,10 @@ class MainFragment : Fragment() {
 
     private fun initializeViewModel() {
         viewModel = ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
-        viewModel.getZooRepo()
+        viewModel.items
             .observe(this, Observer { list ->
                 mAdapter.updateData(list)
             })
-        viewModel.setAnimalRepo()
     }
 
 }

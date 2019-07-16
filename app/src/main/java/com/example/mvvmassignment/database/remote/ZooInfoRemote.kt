@@ -28,7 +28,10 @@ class ZooInfoRemote {
         resultsLiveData.value = resultsList
     }
 
-    fun getResults() = resultsLiveData as LiveData<List<AnimalResults>>
+    fun getResults(): LiveData<List<AnimalResults>> {
+        setAnimalInfo()
+        return resultsLiveData
+    }
 
     fun setAnimalInfo() {
         apiService.getZooInfo().subscribeOn(Schedulers.io())
