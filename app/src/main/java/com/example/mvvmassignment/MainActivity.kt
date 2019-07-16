@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         subMenu.add(0, results?._id ?: 0, 0, results?.E_Name)
                             .setIcon(R.drawable.ic_keyboard_arrow_right_black)
                     }
+                    subMenu.setGroupCheckable(0, true, true);
                 }
                 , { Log.d(Constants.TAG, "error = $it") }
                 , { Log.d(Constants.TAG, "load data onComplete!") })
@@ -88,18 +89,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(
-            Navigation.findNavController(this, R.id.fragment_nav_host), drawerLayout
-        )
+        return NavigationUI.navigateUp(navController, drawerLayout)
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        menuItem.isChecked = false
+        menuItem.isChecked = true
         drawerLayout.closeDrawers()
         var action: NavDirections = MainFragmentDirections.actionMainFragmentToDetailFragment(
             result.results?.get(menuItem.itemId - 1) ?: AnimalResults()
         )
-
         when (menuItem.itemId) {
             menuItem.itemId -> {
                 when (navController.currentDestination?.id) {
