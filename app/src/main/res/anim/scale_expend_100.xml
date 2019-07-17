@@ -10,4 +10,8 @@
         android:pivotY="50%"
         android:fillAfter="false"
         android:duration="500" />
+    <alpha
+        android:fromAlpha="0.5"
+        android:toAlpha="1.0"
+        android:duration="500"/>
 </set>
