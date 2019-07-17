@@ -27,17 +27,17 @@
         <action
             android:id="@+id/action_detail_fragment_to_webFragment"
             app:destination="@id/web_view_fragment"
-            app:enterAnim="@anim/slide_left_0"
-            app:exitAnim="@anim/slide_left_100"
-            app:popEnterAnim="@anim/slide_right_0"
-            app:popExitAnim="@anim/slide_right_100"/>
+            app:enterAnim="@anim/scale_expend_100"
+            app:exitAnim="@anim/scale_expend_200"
+            app:popEnterAnim="@anim/scale_shrink_100"
+            app:popExitAnim="@anim/scale_shrink_0"/>
         <action
             android:id="@+id/action_detail_fragment_self"
             app:destination="@id/detail_fragment"
-            app:enterAnim="@anim/slide_left_0"
-            app:exitAnim="@anim/slide_left_100"
-            app:popEnterAnim="@anim/slide_right_0"
-            app:popExitAnim="@anim/slide_right_100"/>
+            app:enterAnim="@anim/scale_expend_100"
+            app:exitAnim="@anim/scale_expend_200"
+            app:popEnterAnim="@anim/scale_shrink_100"
+            app:popExitAnim="@anim/scale_shrink_0"/>
         <argument
             android:name="title"
             android:defaultValue="Default" />
@@ -65,10 +65,10 @@
         <action
             android:id="@+id/action_web_view_fragment_to_detail_fragment"
             app:destination="@id/detail_fragment"
-            app:enterAnim="@anim/slide_left_0"
-            app:exitAnim="@anim/slide_left_100"
-            app:popEnterAnim="@anim/slide_right_0"
-            app:popExitAnim="@anim/slide_right_100"/>
+            app:enterAnim="@anim/scale_expend_100"
+            app:exitAnim="@anim/scale_expend_200"
+            app:popEnterAnim="@anim/scale_shrink_100"
+            app:popExitAnim="@anim/scale_shrink_0"/>
     </fragment>
 
 </navigation>

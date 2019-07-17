@@ -28,10 +28,8 @@ class DetailFragment : Fragment() {
     private lateinit var mTextMemo: TextView
     private lateinit var mTextCategory: TextView
     private lateinit var mTextOpenWeb: TextView
-
-    private val factory = InjectUtils.provideMainViewModelFactory()
-    private val viewModel: MainViewModel by lazy {
-        ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
+    private val viewModel: DetailViewModel by lazy {
+        ViewModelProviders.of(this).get(DetailViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
