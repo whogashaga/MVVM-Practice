@@ -11,8 +11,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.example.mvvmassignment.R
 import com.example.mvvmassignment.data.AnimalResults
-import com.example.mvvmassignment.ui.main.MainViewModel
-import com.example.mvvmassignment.utils.InjectUtils
 
 private const val ARG_TITLE = "title"
 private const val ARG_OBJECT = "arg_object"
@@ -27,10 +25,8 @@ class DetailFragment : Fragment() {
     private lateinit var mTextMemo: TextView
     private lateinit var mTextCategory: TextView
     private lateinit var mTextOpenWeb: TextView
-
-    private val factory = InjectUtils.provideMainViewModelFactory()
-    private val viewModel: MainViewModel by lazy {
-        ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
+    private val viewModel: DetailViewModel by lazy {
+        ViewModelProviders.of(this).get(DetailViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -68,25 +68,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    private fun setDrawerMenu() {
-        RetrofitClient.instance.create(ApiService::class.java)
-            .getZooInfo()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { zooInfo ->
-                    val subMenu = navigationView.menu.addSubMenu("動物區")
-                    result = zooInfo.result ?: Animal()
-                    zooInfo.result?.results?.forEach { results ->
-                        subMenu.add(0, results?._id ?: 0, 0, results?.E_Name)
-                            .setIcon(R.drawable.ic_keyboard_arrow_right_black)
-                    }
-                }
-                , { Log.d(Constants.TAG, "error = $it") }
-                , { Log.d(Constants.TAG, "load data onComplete!") })
-            .let { compositeDisposable.add(it) }
-    }
-
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(
             Navigation.findNavController(this, R.id.fragment_nav_host), drawerLayout
@@ -114,6 +95,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             setDrawerDisable(true)
         }
+    }
+
+    private fun setDrawerMenu() {
+        RetrofitClient.instance.create(ApiService::class.java)
+            .getZooInfo()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { zooInfo ->
+                    val subMenu = navigationView.menu.addSubMenu("動物區")
+                    result = zooInfo.result ?: Animal()
+                    zooInfo.result?.results?.forEach { results ->
+                        subMenu.add(0, results?._id ?: 0, 0, results?.E_Name)
+                            .setIcon(R.drawable.ic_keyboard_arrow_right_black)
+                    }
+                }
+                , { Log.d(Constants.TAG, "error = $it") }
+                , { Log.d(Constants.TAG, "load data onComplete!") })
+            .let { compositeDisposable.add(it) }
     }
 
     private fun setDrawerDisable(isDisable: Boolean) {
