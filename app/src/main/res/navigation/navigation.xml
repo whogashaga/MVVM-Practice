@@ -14,8 +14,10 @@
         <action
             android:id="@+id/action_main_fragment_to_detail_fragment"
             app:destination="@id/detail_fragment"
-            app:enterAnim="@anim/alpha_in"
-            app:popExitAnim="@anim/alpha_out" />
+            app:enterAnim="@anim/slide_left_0"
+            app:exitAnim="@anim/slide_left_100"
+            app:popEnterAnim="@anim/slide_right_0"
+            app:popExitAnim="@anim/slide_right_100"/>
     </fragment>
 
     <fragment
@@ -25,13 +27,17 @@
         <action
             android:id="@+id/action_detail_fragment_to_webFragment"
             app:destination="@id/web_view_fragment"
-            app:enterAnim="@anim/translate"
-            app:popExitAnim="@anim/alpha_out"/>
+            app:enterAnim="@anim/slide_left_0"
+            app:exitAnim="@anim/slide_left_100"
+            app:popEnterAnim="@anim/slide_right_0"
+            app:popExitAnim="@anim/slide_right_100"/>
         <action
             android:id="@+id/action_detail_fragment_self"
             app:destination="@id/detail_fragment"
-            app:enterAnim="@anim/translate"
-            app:popExitAnim="@anim/alpha_out"/>
+            app:enterAnim="@anim/slide_left_0"
+            app:exitAnim="@anim/slide_left_100"
+            app:popEnterAnim="@anim/slide_right_0"
+            app:popExitAnim="@anim/slide_right_100"/>
         <argument
             android:name="title"
             android:defaultValue="Default" />
@@ -58,7 +64,11 @@
             android:defaultValue="Default" />
         <action
             android:id="@+id/action_web_view_fragment_to_detail_fragment"
-            app:destination="@id/detail_fragment" />
+            app:destination="@id/detail_fragment"
+            app:enterAnim="@anim/slide_left_0"
+            app:exitAnim="@anim/slide_left_100"
+            app:popEnterAnim="@anim/slide_right_0"
+            app:popExitAnim="@anim/slide_right_100"/>
     </fragment>
 
 </navigation>
