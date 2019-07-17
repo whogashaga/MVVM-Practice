@@ -39,7 +39,11 @@
         android:fitsSystemWindows="true"
         app:itemBackground="@drawable/bg_button_white"
         app:headerLayout="@layout/header_layout"
-        app:menu="@menu/drawer_menu" />
+        app:menu="@menu/drawer_menu" >
+
+        <include layout="@layout/header_layout"/>
+
+    </com.google.android.material.navigation.NavigationView>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

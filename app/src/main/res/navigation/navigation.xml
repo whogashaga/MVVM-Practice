@@ -13,7 +13,11 @@
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_main_fragment_to_detail_fragment"
-            app:destination="@id/detail_fragment" />
+            app:destination="@id/detail_fragment"
+            app:enterAnim="@anim/slide_left_0"
+            app:exitAnim="@anim/slide_left_100"
+            app:popEnterAnim="@anim/slide_right_0"
+            app:popExitAnim="@anim/slide_right_100"/>
     </fragment>
 
     <fragment
@@ -22,16 +26,24 @@
         android:label="{title}">
         <action
             android:id="@+id/action_detail_fragment_to_webFragment"
-            app:destination="@id/web_view_fragment" />
+            app:destination="@id/web_view_fragment"
+            app:enterAnim="@anim/slide_left_0"
+            app:exitAnim="@anim/slide_left_100"
+            app:popEnterAnim="@anim/slide_right_0"
+            app:popExitAnim="@anim/slide_right_100"/>
+        <action
+            android:id="@+id/action_detail_fragment_self"
+            app:destination="@id/detail_fragment"
+            app:enterAnim="@anim/slide_left_0"
+            app:exitAnim="@anim/slide_left_100"
+            app:popEnterAnim="@anim/slide_right_0"
+            app:popExitAnim="@anim/slide_right_100"/>
         <argument
             android:name="title"
             android:defaultValue="Default" />
         <argument
             android:name="arg_object"
             app:argType="com.example.mvvmassignment.data.AnimalResults" />
-        <action
-            android:id="@+id/action_detail_fragment_self"
-            app:destination="@id/detail_fragment" />
     </fragment>
     <fragment
         android:name="com.example.mvvmassignment.ui.WebFragment"
@@ -48,7 +60,11 @@
             android:defaultValue="Default" />
         <action
             android:id="@+id/action_web_view_fragment_to_detail_fragment"
-            app:destination="@id/detail_fragment" />
+            app:destination="@id/detail_fragment"
+            app:enterAnim="@anim/slide_left_0"
+            app:exitAnim="@anim/slide_left_100"
+            app:popEnterAnim="@anim/slide_right_0"
+            app:popExitAnim="@anim/slide_right_100"/>
     </fragment>
 
 </navigation>
