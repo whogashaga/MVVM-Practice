@@ -46,7 +46,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mAdapter.callback = object : MainAdapter.OnHallInfoClickListener {
-            override fun onInfoClick(position: Int) {
+            override fun onInfoClick() {
                 progressBar.visibility = View.GONE
             }
         }

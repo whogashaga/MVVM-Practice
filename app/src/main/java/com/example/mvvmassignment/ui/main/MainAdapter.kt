@@ -25,8 +25,8 @@ class MainAdapter(private var viewModel: MainViewModel) : RecyclerView.Adapter<M
     override fun getItemCount(): Int = mResultsList.size
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.bind(mResultsList[position], position)
-        callback?.onInfoClick(position)
+        holder.bind(mResultsList[position])
+        callback?.onInfoClick()
     }
 
     inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -37,7 +37,7 @@ class MainAdapter(private var viewModel: MainViewModel) : RecyclerView.Adapter<M
         var information: TextView = itemView.findViewById(R.id.text_hall_info)
         var memo: TextView = itemView.findViewById(R.id.text_hall_memo)
 
-        fun bind(animalResults: AnimalResults?, position: Int) {
+        fun bind(animalResults: AnimalResults?) {
             Glide.with(itemView).load(animalResults?.E_Pic_URL).into(picture)
             name.text = animalResults?.E_Name
             information.text = animalResults?.E_Info
@@ -58,6 +58,6 @@ class MainAdapter(private var viewModel: MainViewModel) : RecyclerView.Adapter<M
     }
 
     interface OnHallInfoClickListener {
-        fun onInfoClick(position:Int)
+        fun onInfoClick()
     }
 }

@@ -26,6 +26,7 @@ import com.google.android.material.navigation.NavigationView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_web.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     NavController.OnDestinationChangedListener {
@@ -155,8 +156,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when {
             drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
 
-            R.id.main_fragment != navController.currentDestination?.id ->
-                navController.popBackStack(R.id.main_fragment, false)
+            R.id.main_fragment != navController.currentDestination?.id -> {
+                if (web_view.canGoBack()) {
+                    web_view.goBack()
+                } else {
+                    navController.popBackStack(R.id.main_fragment, false)
+                }
+
+            }
 
             else -> super.onBackPressed()
         }
