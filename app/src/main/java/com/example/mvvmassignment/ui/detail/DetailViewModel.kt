@@ -12,8 +12,8 @@ class DetailViewModel : ViewModel() {
         return if ("" == animalResults?.E_Memo) "無休館資訊" else animalResults?.E_Memo.toString()
     }
 
-    fun onClickOpenWebView(result: AnimalResults?, view: View) {
-        Snackbar.make(view, "目前瀏覽人數眾多 請耐心等候畫面", Snackbar.LENGTH_SHORT)
+    fun onClickOpenWebView(result: AnimalResults?, view: View, string: String) {
+        Snackbar.make(view, "歡迎蒞臨$string", Snackbar.LENGTH_LONG)
             .setAction("Action", null)
             .show()
 

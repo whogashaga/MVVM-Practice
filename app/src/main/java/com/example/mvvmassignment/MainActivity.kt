@@ -162,7 +162,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 } else {
                     navController.popBackStack(R.id.main_fragment, false)
                 }
-
             }
 
             else -> super.onBackPressed()

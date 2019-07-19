@@ -62,7 +62,7 @@ class DetailFragment : Fragment() {
         mTextCategory.text = mAnimalResults?.E_Category
 
         mTextOpenWeb.setOnClickListener { view ->
-            viewModel.onClickOpenWebView(mAnimalResults, view)
+            viewModel.onClickOpenWebView(mAnimalResults, view, mAnimalResults?.E_Name.toString())
         }
         return root
     }
