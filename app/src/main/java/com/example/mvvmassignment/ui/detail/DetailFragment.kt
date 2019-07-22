@@ -8,9 +8,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavDirections
+import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
+import com.example.mvvmassignment.NavigateActionCallback
 import com.example.mvvmassignment.R
 import com.example.mvvmassignment.data.AnimalResults
+import com.google.android.material.snackbar.Snackbar
 
 private const val ARG_TITLE = "title"
 private const val ARG_OBJECT = "arg_object"
@@ -59,7 +63,14 @@ class DetailFragment : Fragment() {
         mTextCategory.text = mAnimalResults?.E_Category
 
         mTextOpenWeb.setOnClickListener { view ->
-            viewModel.onClickOpenWebView(mAnimalResults, view)
+            viewModel.onClickOpenWebView(mAnimalResults, object : NavigateActionCallback {
+                override fun onNavigateAction(action: NavDirections) {
+                    Snackbar.make(view, "目前瀏覽人數眾多 請耐心等候畫面", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null)
+                        .show()
+                    Navigation.findNavController(view).navigate(action)
+                }
+            })
         }
         return root
     }

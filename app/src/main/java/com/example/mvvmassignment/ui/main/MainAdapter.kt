@@ -5,12 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.NavDirections
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.mvvmassignment.NavigateActionCallback
 import com.example.mvvmassignment.R
 import com.example.mvvmassignment.data.AnimalResults
 
-class MainAdapter(private var viewModel: MainViewModel) : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+class MainAdapter(private var viewModel: MainViewModel) :
+    RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     private var mResultsList = ArrayList<AnimalResults>()
     var callback: OnHallInfoClickListener? = null
@@ -42,8 +46,13 @@ class MainAdapter(private var viewModel: MainViewModel) : RecyclerView.Adapter<M
             name.text = animalResults?.E_Name
             information.text = animalResults?.E_Info
             memo.text = viewModel.filterString(animalResults)
+
             itemLayout.setOnClickListener { view ->
-                viewModel.onClickListItem(animalResults, view)
+                viewModel.onClickListItem(animalResults, object : NavigateActionCallback {
+                    override fun onNavigateAction(action: NavDirections) {
+                        Navigation.findNavController(view).navigate(action)
+                    }
+                })
             }
         }
     }
