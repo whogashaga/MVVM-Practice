@@ -9,7 +9,6 @@ import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.mvvmassignment.NavigateCallback
 import com.example.mvvmassignment.R
 import com.example.mvvmassignment.data.AnimalResults
 
@@ -48,11 +47,9 @@ class MainAdapter(private var viewModel: MainViewModel) :
             memo.text = viewModel.filterString(animalResults)
 
             itemLayout.setOnClickListener { view ->
-                viewModel.onClickListItem(animalResults, object : NavigateCallback {
-                    override fun onNavigateAction(action: NavDirections) {
-                        Navigation.findNavController(view).navigate(action)
-                    }
-                })
+                viewModel.onClickListItem(animalResults) {
+                    Navigation.findNavController(view).navigate(it as NavDirections)
+                }
             }
         }
     }
