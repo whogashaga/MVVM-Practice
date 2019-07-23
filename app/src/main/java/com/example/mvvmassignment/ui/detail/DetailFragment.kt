@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
-import com.example.mvvmassignment.NavigateActionCallback
 import com.example.mvvmassignment.R
 import com.example.mvvmassignment.data.AnimalResults
 import com.google.android.material.snackbar.Snackbar
@@ -63,14 +62,12 @@ class DetailFragment : Fragment() {
         mTextCategory.text = mAnimalResults?.E_Category
 
         mTextOpenWeb.setOnClickListener { view ->
-            viewModel.onClickOpenWebView(mAnimalResults, object : NavigateActionCallback {
-                override fun onNavigateAction(action: NavDirections) {
-                    Snackbar.make(view, "目前瀏覽人數眾多 請耐心等候畫面", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null)
-                        .show()
-                    Navigation.findNavController(view).navigate(action)
-                }
-            })
+            viewModel.onClickOpenWebView(mAnimalResults) {
+                Navigation.findNavController(view).navigate(it as NavDirections)
+                Snackbar.make(view, "目前瀏覽人數眾多 請耐心等候畫面", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null)
+                    .show()
+            }
         }
         return root
     }
