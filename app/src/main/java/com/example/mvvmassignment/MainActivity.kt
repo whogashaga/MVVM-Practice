@@ -2,8 +2,10 @@ package com.example.mvvmassignment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -36,6 +38,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private var doubleBackToExitPressedOnce = false
+
 
     companion object {
         private lateinit var result: Animal
@@ -157,11 +161,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
 
             R.id.main_fragment != navController.currentDestination?.id -> {
-                if (web_view.canGoBack()) {
+                if (web_view != null && web_view.canGoBack()) {
                     web_view.goBack()
                 } else {
                     navController.popBackStack(R.id.main_fragment, false)
                 }
+            }
+
+            R.id.main_fragment == navController.currentDestination?.id -> {
+                if (doubleBackToExitPressedOnce) {
+                    super.onBackPressed()
+                    return
+                }
+                doubleBackToExitPressedOnce = true
+                Toast.makeText(this, "再按一次離開", Toast.LENGTH_SHORT).show()
+                Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
             }
 
             else -> super.onBackPressed()
