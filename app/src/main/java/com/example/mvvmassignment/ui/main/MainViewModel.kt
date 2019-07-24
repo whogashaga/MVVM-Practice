@@ -15,10 +15,11 @@ class MainViewModel(private val zooRepository: ZooRepository) : ViewModel() {
         return if ("" == animalResults?.E_Memo) "無休館資訊" else animalResults?.E_Memo.toString()
     }
 
-    fun onClickListItem(result: AnimalResults?, callback: (Any) -> Unit) {
+    fun onClickListItem(result: AnimalResults?, position: Int, callback: (Any) -> Unit) {
         val action =
             MainFragmentDirections.actionMainFragmentToDetailFragment(result ?: AnimalResults())
         action.title = result?.E_Name ?: ""
+        action.argPosition = position
         callback(action)
     }
 }

@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navController = Navigation.findNavController(this, R.id.fragment_nav_host)
 
-        setDrawerMenu()
+        setupDrawerMenu()
 
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
 
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    private fun setDrawerMenu() {
+    private fun setupDrawerMenu() {
         RetrofitClient.instance.create(ApiService::class.java)
             .getZooInfo()
             .subscribeOn(Schedulers.io())

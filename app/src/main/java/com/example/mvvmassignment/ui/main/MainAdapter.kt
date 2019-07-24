@@ -28,7 +28,7 @@ class MainAdapter(private var viewModel: MainViewModel) :
     override fun getItemCount(): Int = mResultsList.size
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.bind(mResultsList[position])
+        holder.bind(mResultsList[position], position)
         callback?.onInfoClick()
     }
 
@@ -40,14 +40,14 @@ class MainAdapter(private var viewModel: MainViewModel) :
         var information: TextView = itemView.findViewById(R.id.text_hall_info)
         var memo: TextView = itemView.findViewById(R.id.text_hall_memo)
 
-        fun bind(animalResults: AnimalResults?) {
+        fun bind(animalResults: AnimalResults?, position: Int) {
             Glide.with(itemView).load(animalResults?.E_Pic_URL).into(picture)
             name.text = animalResults?.E_Name
             information.text = animalResults?.E_Info
             memo.text = viewModel.filterString(animalResults)
 
             itemLayout.setOnClickListener { view ->
-                viewModel.onClickListItem(animalResults) {
+                viewModel.onClickListItem(animalResults, position) {
                     Navigation.findNavController(view).navigate(it as NavDirections)
                 }
             }
