@@ -15,7 +15,7 @@ import com.example.mvvmassignment.data.AnimalResults
 class MainAdapter(private var viewModel: MainViewModel) :
     RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
-    private var mResultsList = ArrayList<AnimalResults>()
+    private var mResultsList = ArrayList<AnimalResults?>()
     var callback: OnHallInfoClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -54,7 +54,7 @@ class MainAdapter(private var viewModel: MainViewModel) :
         }
     }
 
-    fun updateData(animalResultsList: List<AnimalResults>) {
+    fun updateData(animalResultsList: List<AnimalResults?>) {
         mResultsList.clear()
         animalResultsList.forEach { result ->
             mResultsList.add(result)

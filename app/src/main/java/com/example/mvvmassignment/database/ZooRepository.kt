@@ -1,5 +1,7 @@
 package com.example.mvvmassignment.database
 
+import com.example.mvvmassignment.data.AnimalResults
+import com.example.mvvmassignment.data.SealedResult
 import com.example.mvvmassignment.database.remote.ZooInfoRemote
 
 class ZooRepository constructor(private val zooInfoDao: ZooInfoRemote) {
@@ -18,4 +20,7 @@ class ZooRepository constructor(private val zooInfoDao: ZooInfoRemote) {
 
     fun setAnimalData() = zooInfoDao.setAnimalInfo()
 
+    suspend fun getZooInfoCoroutines(): SealedResult<List<AnimalResults?>> {
+        return zooInfoDao.getAnimalInfoCoroutine()
+    }
 }

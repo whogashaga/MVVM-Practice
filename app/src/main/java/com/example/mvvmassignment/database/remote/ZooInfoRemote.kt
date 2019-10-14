@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmassignment.constant.Constants.Companion.TAG
 import com.example.mvvmassignment.data.AnimalResults
+import com.example.mvvmassignment.data.SealedResult
 import com.example.mvvmassignment.retrofit.client.RetrofitClient
 import com.example.mvvmassignment.retrofit.service.ApiService
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -47,5 +48,18 @@ class ZooInfoRemote {
                 , { Log.d(TAG, "error = $it") }
                 , { Log.d(TAG, "load data onComplete!") })
             .let { compositeDisposable.add(it) }
+    }
+
+    suspend fun getAnimalInfoCoroutine(): SealedResult<List<AnimalResults?>> {
+        val getPropertiesDeferred = apiService.getZooInfoCoroutine()
+        return try {
+            // this will run on a thread managed by Retrofit
+            val listResult = getPropertiesDeferred.await()
+            SealedResult.Success(listResult.getDataItems())
+
+        } catch (e: Exception) {
+            Log.e("Kerry","e=${e.message}")
+            SealedResult.Error(e)
+        }
     }
 }

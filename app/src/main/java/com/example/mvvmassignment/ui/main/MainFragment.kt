@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mvvmassignment.LoadApiStatus
 import com.example.mvvmassignment.R
 import com.example.mvvmassignment.utils.InjectUtils
 
@@ -55,6 +56,13 @@ class MainFragment : Fragment() {
     private fun initializeViewModel() {
         viewModel.items.observe(this, Observer { list ->
             mAdapter.updateData(list)
+        })
+        viewModel.status.observe(this, Observer {
+            when (it) {
+                LoadApiStatus.DONE -> progressBar.visibility = View.GONE
+                LoadApiStatus.ERROR -> progressBar.visibility = View.VISIBLE
+                LoadApiStatus.LOADING -> progressBar.visibility = View.VISIBLE
+            }
         })
     }
 }
